@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const tables = [];
-const
+const waitlist = [];
 
 
 
@@ -32,6 +32,12 @@ addBtn.addEventListener('click', (e) => {
             phone: custPhone,
             id: custID
         }
+        if (tables.length > 5) {
+            tables.push(customerInfo);
+        } else {
+            waitlist.push(customerInfo);
+        }
+}
 
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

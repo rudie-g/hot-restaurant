@@ -32,12 +32,41 @@ addBtn.addEventListener('click', (e) => {
             phone: custPhone,
             id: custID
         }
+        fetch('/api/characters', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(customerInfo),
+          })
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error('Error:', error);
+            });
         if (tables.length > 5) {
             tables.push(customerInfo);
         } else {
             waitlist.push(customerInfo);
         }
-}
+});
+
+app.post('/api/characters', (req, res) => {
+    const newCustomer = req.body;
+    newCustomer.routeName = newCustomer.name.replace(/\s+/g, '').toLowerCase();
+    console.log(newCustomer);
+    res.json(newCustomer);
+});
+
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'home.html')));
+
+app.get('/reserve', (req, res) => res.sendFile(path.join(__dirname, 'reserve.html')));
+
+app.get('/tables', (req, res) => res.sendFile(path.join(__dirname, 'tables.html')));
+
+// Displays all characters
+app.get('/api/tables', (req, res) => res.json(tables));
+app.get('/api/waitlist', (req, res) => res.json(waitlist));
+
 
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));

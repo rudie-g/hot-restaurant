@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hot Restaurant!</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Hot Restaurant</h1>
+            <h3>Make Your Reservation Below</h3>
+            <hr />
+            <a href="/">
+                <button class="btn btn-danger btn-lg">
+                    <span class="fa fa-eye">View Tables</span>
+                </button>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><strong>Table Reservations</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" role="form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="role">Phone Number</label>
+                                <input type="text" class="form-control" id="role" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="age">Email</label>
+                                <input type="text" class="form-control" id="age" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="force-points">Unique ID</label>
+                                <input type="text" class="form-control" id="force-points" />
+                            </div>
+                        </form>
+                        <br />
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary btn-md" id="add-btn">
+                                <span class="fa fa-fire">Submit</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        const addBtn = document.getElementById('add-btn');
+
+        addBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            let charName = document.getElementById('name').value.trim();
+            let charRole = document.getElementById('role').value.trim();
+            let charAge = document.getElementById('age').value.trim();
+            let charFp = document.getElementById('force-points').value.trim();
+
+            let newCharacter = {
+                name: charName,
+                role: charRole,
+                age: parseInt(charAge),
+                forcePoints: parseInt(charFp),
+            };
+
+            fetch('/api/characters', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newCharacter),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('add.html', data);
+                    alert(`Adding character: ${data.name}`);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
